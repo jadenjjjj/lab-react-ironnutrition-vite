@@ -1,32 +1,61 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useState } from 'react';
+import { Row, Button, Empty } from 'antd';
+import './App.css';
+import foods from './foods.json';
+import FoodBox from '../components/FoodBox';
+import AddFoodForm from '../components/AddFoodForm';
+import Search from '../components/Search';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  //const [count, setCount] = useState(0);
+  const [foodList, setFoodList] = useState(foods);
+  const [filteredFoodList, setFilteredFoodList] = useState(foodList); 
+  const [showAddFoodForm, setShowAddFoodForm] = useState(false);
+
+  const handleAddFood = (food) => {
+    setFoodList((prevFoodList) => [...prevFoodList, food]);
+    setFilteredFoodList((prevFoodList) => [...prevFoodList, food]);
+    setShowAddFoodForm(false);
+  }
+
+  const handleDeleteFood = (food) => {
+      setFoodList((prevFoodlIst) => prevFoodlIst.filter((item) => item.name !== food.name));
+      setFilteredFoodList((prevFilteredFoodList) => prevFilteredFoodList.filter((item) => item.name !== food.name));
+    };
+  
+  const handleShowAddFoodForm = () => {
+    setShowAddFoodForm(true);
+  }
+
+  const handleHideAddFoodForm = () => {
+    setShowAddFoodForm(false);
+  }
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      
+      <Search foodList={foodList} setFilteredFoodList={setFilteredFoodList} />
+
+      {filteredFoodList.length === 0 
+      ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No items to display" />
+      
+      :<Row gutter={[8, 8]}>
+        {filteredFoodList.map((food, index) => (
+          <FoodBox key={index} food={food} onDelete={handleDeleteFood} />
+        ))}
+      </Row>
+      }
+      {showAddFoodForm ? (<AddFoodForm onAddFood={handleAddFood} onCalcel={ handleHideAddFoodForm }/>)
+                       : (<Button type='primary' onClick={handleShowAddFoodForm}>
+                          ADD New Food
+                       </Button>)}
+
+      {showAddFoodForm && (
+        <Button type="primary" onClick={handleHideAddFoodForm}>
+          Hide form
+        </Button>
+      )}
     </div>
   )
 }

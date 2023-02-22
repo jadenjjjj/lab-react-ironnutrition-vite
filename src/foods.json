@@ -1,14 +1,14 @@
 [
   {
-    "name": "Pizza",
+    "name": "Leo",
     "calories": 400,
-    "image": "https://i.imgur.com/eTmWoAN.png",
+    "image": "https://res.cloudinary.com/dqqdwbrhs/image/upload/v1676991021/saad-khan-djmWYp1r60k-unsplash_z92bnq.jpg",
     "servings": 1
   },
   {
-    "name": "Salad",
+    "name": "Amra",
     "calories": 150,
-    "image": "https://i.imgur.com/DupGBz5.jpg",
+    "image": "https://res.cloudinary.com/dqqdwbrhs/image/upload/v1676991020/cara-fuller-QF38t6obcnk-unsplash_ro5hsq.jpg",
     "servings": 1
   },
   {
